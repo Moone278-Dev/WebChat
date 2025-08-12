@@ -17,34 +17,61 @@
 </head>
 
 <body>
+ <div class="container">
+	 <center>	<h1 class="logo"> WebChat </h1> </center>
+	<form class="form" id="form">
+		<input class="text" type="text" placeholder="name" required id="myname" /> 
+		<input class="text" type="text" placeholder="Message" required id="message" />
+		<button class="btn" type="submit">Send Message</button>
+</form>
 
-	<header class="header">
-	 <img src="profile.jpg" alt="Profile img" class="profile-img">
-  
-	 <h1 class="site title">Web-chat</h1>
-  
-	 <div class="account-menu">
-    
-		 <button id="account-btn">Account ▼</button>
-	 <!-- Dropdown menu hidden by default-->
-		<ul id="account-dropdown">
-      	<li><a href="#">Login</a></li>
-      <li><a href="#">Profile</a></li>
-     </ul>
+<div class="message area" id="messageArea"></div>
  </div>
-</header>
-
-<!--main content area -->
-<main class="main-content">
-	<label for="country-select" class="country-label">Choose a Country </label>
-	<select id="country-select" class="country-select"> 
-	<option value="spain"> &#127463; america</option>
-
-
-	</select>
-</main>
-
-	<script src="interaction.js"></script>
+ <script src="/socket.io/socket.io.js"></script>
+ <script>
+	 let socket = io(); //Connect to the socket.io server //
+    
+	 
+	 // These assign the ID of the elements to a variable which avoids repeating DOM queries, This means that everytime i want too manipulate these elements via the DOM in js it doesn't have too search the entire webPage again and again too apply these manipulations. //
+	 let form = document.getElementById('form');
+    let messageArea = document.getElementById('messageArea');
+    let myname = document.getElementById('myname');
+    let message = document.getElementById('message');
+// //
+    form.addEventListener('submit', (e) => {
+	e.preventDefault(); // Prevents the default action of the form which is to refresh the page on submit //
+ 
+	    if (message.value){
+    		
+		    socket.emit('send name',myname.value) // Emitting a message event to the server with an object containing the name and message //)
+    		
+		    socket.emit('send message',message.value) // Emitting a message event to the server with an object containing the name and message //
+		   
+		    message.value = '' // Clear the message input field after sending the message //
+	    }
+    })
+	     socket.on('send name', (username) => {
+		     
+		     let name = document.createElement('p'); // Create a new paragraph element //
+		     
+		     name.classList.add('message'); // Add a class to the paragraph element //
+		     
+		     name.innerHTML = `<span class="name">${username}</span>`; // Set the inner HTML of the paragraph element to the username //
+	
+		     messageArea.appendChild(name); // Append the paragraph element to the message area //
+	     });
+	     socket.on('send message', (chat) => {
+		     
+		     let chatContent = document.createElement('p'); // Create a new paragraph element //
+		     
+		     chatContent.classList.add('message'); // Add a class to the paragraph element //
+		     
+		     chatContent.textContent = chat; // Set the text content of the paragraph element to the chat message //
+		     
+		     messageArea.appendChild(chatContent); // Append the paragraph element to the message area //
+	     });
+ </script>
 </body>
+
 
 </html>

@@ -1,0 +1,24 @@
+{
+  "name": "webchat",
+  "version": "1.0.0",
+  "description": "Web chat app for people in different countries too talk about how life is where they are and where they want too go",
+  "main": "interaction.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Moone278-Dev/WebChat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Moone278-Dev/WebChat/issues"
+  },
+  "homepage": "https://github.com/Moone278-Dev/WebChat#readme",
+  "dependencies": {
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {}
+}
